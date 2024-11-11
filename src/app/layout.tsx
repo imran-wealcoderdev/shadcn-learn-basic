@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { Header } from "@/components/elements/header/header";
 
 export const metadata: Metadata = {
   title: "Shadcn practice",
@@ -16,7 +16,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
       >
-        {children}
+        <Header />
+        <main className="pt-[75px]">
+          {children}
+        </main>
+
       </body>
     </html>
   );
