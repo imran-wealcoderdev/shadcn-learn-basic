@@ -1,5 +1,6 @@
 "use client"
 import React from "react"
+import { useState } from "react"
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
@@ -56,10 +57,10 @@ export function NavMenu() {
     return (
         <NavigationMenu>
             <NavigationMenuList>
-                <NavigationMenuItem>
+                <NavigationMenuItem >
                     <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <NavigationMenuContent className=" bg-gray-400 h-[700px] !overflow-visible !w-[1000px]">
+                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] relative overflow-visible z-15">
                             <li className="row-span-3">
                                 <NavigationMenuLink asChild>
                                     <a
@@ -77,15 +78,14 @@ export function NavMenu() {
                                     </a>
                                 </NavigationMenuLink>
                             </li>
-                            <ListItem href="/docs" title="Introduction">
-                                Re-usable components built using Radix UI and Tailwind CSS.
+                            <ListItem href="/" title="Introduction" >
                             </ListItem>
-                            <ListItem href="/docs/installation" title="Installation">
-                                How to install dependencies and structure your app.
+                            <ListItem href="/" title="Installation" hasChild>
                             </ListItem>
-                            <ListItem href="/docs/primitives/typography" title="Typography">
-                                Styles for headings, paragraphs, lists...etc
+                            <ListItem href="/" title="Typography">
                             </ListItem>
+                            <ListItem title="It Has CHild" hasChild></ListItem>
+
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -119,10 +119,10 @@ export function NavMenu() {
 
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
-    React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<"a"> & { hasChild?: boolean }
+>(({ className, title, children, hasChild, ...props }, ref) => {
     return (
-        <li>
+        <li className="relative group">
             <NavigationMenuLink asChild>
                 <a
                     ref={ref}
@@ -138,7 +138,18 @@ const ListItem = React.forwardRef<
                     </p>
                 </a>
             </NavigationMenuLink>
+
+            {hasChild && (
+                <div className=" w-[300px] absolute left-full top-0 mt-1 !z-100 h-44 p-3 rounded-md bg-blue-300 shadow-lg text-sm  hidden group-hover:block">
+                    <p className="text-muted-foreground">Submenu content for {title}</p>
+                    <ul className="space-y-2">
+                        <li className="hover:text-accent-foreground">Option 1</li>
+                        <li className="hover:text-accent-foreground">Option 2</li>
+                        <li className="hover:text-accent-foreground">Option 3</li>
+                    </ul>
+                </div>
+            )}
         </li>
-    )
+    );
 })
 ListItem.displayName = "ListItem"
